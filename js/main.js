@@ -1,1 +1,1 @@
-document.getElementById("hello_text").textContent="はじめてのJavascript";
+// document.getElementById("hello_text").textContent="はじめてのJavascript";
