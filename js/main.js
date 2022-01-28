@@ -59,7 +59,7 @@ setInterval(function () {
   count++;
   // 何回目かを文字にまとめて表示する
   document.getElementById("title").textContent =
-    "さだおのホームページ(" + count + ")";
+    "さだおのホームページ【テトリス】(" + count + ")";
   // 落下中のブロックがあるか確認する
   if (hasFallingBlock()) {
     // あればブロックを落とす
@@ -106,7 +106,7 @@ function fallBlocks() {
       if (cells[row][col].blockNum == fallingBlockNum) {
         if (
           cells[row + 1][col].className != "" &&
-          cells[row + 1][col].blockNum != fallingBlockNum 
+          cells[row + 1][col].blockNum != fallingBlockNum
         ) {
           isFalling = false;
           // 一つ下のマスにブロックがいるので落とさない
@@ -165,11 +165,41 @@ function generateBlock() {
 }
 
 // ブロックを右に移動させる
-// function moveRight(){
-
-// }
+function moveRight() {
+  for (var row = 0; row < 20; row++) {
+    for (var col = 9; col >= 0; col--) {
+      if (cells[row][col].blockNum == fallingBlockNum) {
+        cells[row][col + 1].className = cells[row][col].className;
+        cells[row][col + 1].blockNum = cells[row][col].blockNum;
+        cells[row][col].className = "";
+        cells[row][col].blockNum = null;
+      }
+    }
+  }
+}
 
 // ブロックを左に移動させる
-// function moveLeft(){
+function moveLeft() {
+  for (var row = 0; row < 20; row++) {
+    for (var col = 0; col < 10; col++) {
+      if (cells[row][col].blockNum == fallingBlockNum) {
+        cells[row][col - 1].className = cells[row][col].className;
+        cells[row][col - 1].blockNum = cells[row][col].blockNum;
+        cells[row][col].className = "";
+        cells[row][col].blockNum = null;
+      }
+    }
+  }
+}
 
-// }
+// キーボードイベントを監視する
+document.addEventListener("keydown", onKeyDown);
+
+// キー入力によってそれぞれの関数を呼び出す
+function onKeyDown(event) {
+  if (event.keyCode == 37) {
+    moveLeft();
+  } else if (event.keyCode == 39) {
+    moveRight();
+  }
+}
