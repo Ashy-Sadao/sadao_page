@@ -70,7 +70,7 @@ setInterval(function () {
     // ランダムにブロックを作成する
     generateBlock();
   }
-}, 500);
+}, 100);
 
 // ------------------ここから下は関数の宣言部分-----------------------------
 
@@ -138,7 +138,31 @@ function hasFallingBlock() {
 
 // そろっている行を消す
 function deleteRow() {
-  return;
+  for (var row = 19; row >= 0; row--) {
+    var canDelete = true;
+    for (var col = 0; col < 10; col++) {
+      if (cells[row][col].className == "") {
+        canDelete = false;
+      }
+    }
+    if (canDelete) {
+      col = 0;
+      // １行消す
+      for (col = 0; col < 10; col++) {
+        cells[row][col].className = "";
+      }
+      col = 0;
+      // 上の行のブロックをすべて1マス落とす
+      for (var downRow = row - 1; downRow >= 0; downRow--) {
+        for (col = 0; col < 10; col++) {
+          cells[downRow + 1][col].className = cells[downRow][col].className;
+          cells[downRow + 1][col].blockNum = cells[downRow][col].blockNum;
+          cells[downRow][col].className = "";
+          cells[downRow][col].blockNum = null;
+        }
+      }
+    }
+  }
 }
 
 var fallingBlockNum = 0;
