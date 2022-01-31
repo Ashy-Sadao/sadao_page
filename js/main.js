@@ -70,7 +70,7 @@ setInterval(function () {
     // ランダムにブロックを作成する
     generateBlock();
   }
-}, 1000);
+}, 500);
 
 // ------------------ここから下は関数の宣言部分-----------------------------
 
@@ -166,8 +166,26 @@ function generateBlock() {
 
 // ブロックを右に移動させる
 function moveRight() {
+  // 右のマスに別のブロックがないか？
   for (var row = 0; row < 20; row++) {
-    for (var col = 9; col >= 0; col--) {
+    for (var col = 0; col < 10; col++) {
+      if (cells[row][col].blockNum == fallingBlockNum) {
+        // 右が画面端じゃないか
+        if (
+          col + 1 > 20 ||
+          (cells[row][col + 1].className != "" &&
+            cells[row][col + 1].blockNum != fallingBlockNum)
+        ) {
+          // ブロックが動けない
+          return;
+        }
+      }
+    }
+  }
+  row = 0;
+  col = 9;
+  for (row = 0; row < 20; row++) {
+    for (col = 9; col >= 0; col--) {
       if (cells[row][col].blockNum == fallingBlockNum) {
         cells[row][col + 1].className = cells[row][col].className;
         cells[row][col + 1].blockNum = cells[row][col].blockNum;
@@ -180,8 +198,26 @@ function moveRight() {
 
 // ブロックを左に移動させる
 function moveLeft() {
+  // 左のマスに別のブロックがないか？
   for (var row = 0; row < 20; row++) {
     for (var col = 0; col < 10; col++) {
+      if (cells[row][col].blockNum == fallingBlockNum) {
+        // 左が画面端じゃないか
+        if (
+          col - 1 < 0 ||
+          (cells[row][col - 1].className != "" &&
+            cells[row][col - 1].blockNum != fallingBlockNum)
+        ) {
+          // ブロックが動けない
+          return;
+        }
+      }
+    }
+  }
+  row = 0;
+  col = 0;
+  for (row = 0; row < 20; row++) {
+    for (col = 0; col < 10; col++) {
       if (cells[row][col].blockNum == fallingBlockNum) {
         cells[row][col - 1].className = cells[row][col].className;
         cells[row][col - 1].blockNum = cells[row][col].blockNum;
